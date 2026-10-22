@@ -20,3 +20,11 @@ dokumentieren (SSP, Assessment) und als OSCAL exportieren. Domain: oscal.neopreh
   Parent-Ordner `Entwicklung` (anderes Repo). Git-Kommandos immer mit `-C oscal`.
 - Commit-Sprache: Deutsch.
 - OSCAL-Modelle in `backend/app/oscal.py` bleiben verlustfrei (`extra="allow"`).
+
+## Doku & CI/CD
+- Doku: MkDocs (`mkdocs.yml`, DE an der Wurzel, EN per Suffix `.en.md`), Stil wie fair-web;
+  RTD-Projekte `neo-oscal` (zweisprachig) und optional `neo-oscal-en` (`.readthedocs-en.yaml`).
+  Bei Nav-Änderungen `mkdocs.yml` und `mkdocs.en.yml` synchron halten.
+- `.github/workflows/ci.yml`: pytest/ruff, Frontend-Build, Doku-Build (strict).
+- `.github/workflows/deploy.yml`: SSH/rsync-Deploy auf den VPS, nur aktiv bei Repo-Variable
+  `DEPLOY_ENABLED=true` und gesetzten `VPS_*`-Secrets. Server-Setup: `docs/betrieb.md`.

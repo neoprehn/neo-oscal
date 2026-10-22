@@ -1,10 +1,47 @@
-site_name: neo-oscal
+site_name: neo-oscal Dokumentation
 site_description: Controls-Automatisierung auf Basis von NIST OSCAL
 repo_url: https://github.com/neoprehn/neo-oscal
+docs_dir: docs
+extra_css:
+  - extra.css
+
 theme:
-  name: material
+  name: readthedocs
   language: de
+  custom_dir: docs/overrides
+
 nav:
-  - Übersicht: index.md
+  - Start: index.md
+  - OSCAL-Grundlagen: oscal-grundlagen.md
   - Entwicklung: entwicklung.md
+  - Betrieb & CI/CD: betrieb.md
   - Roadmap: roadmap.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: de
+          name: Deutsch
+          default: true
+          build: true
+        - locale: en
+          name: English
+          build: true
+          site_name: neo-oscal Documentation
+          site_description: Controls automation based on NIST OSCAL
+          nav_translations:
+            Start: Home
+            OSCAL-Grundlagen: OSCAL Fundamentals
+            Entwicklung: Development
+            Betrieb & CI/CD: Operations & CI/CD
+            Roadmap: Roadmap

@@ -1,3 +1,4 @@
+# ReadTheDocs Build-Konfiguration (v2). Baut die MkDocs-Site aus docs/ (zweisprachig).
 version: 2
 
 build:

@@ -1,0 +1,44 @@
+# Separate MkDocs config for the dedicated "neo-oscal-en" Read the Docs project
+# (own subdomain, English-only). The main mkdocs.yml stays bilingual
+# (German at the root + /en/ subpath); here English is the only/default locale.
+#
+# Keep nav/theme/markdown_extensions in sync with mkdocs.yml by hand
+# (MkDocs has no config-file inheritance) whenever the nav changes.
+site_name: neo-oscal Documentation
+site_description: Controls automation based on NIST OSCAL
+repo_url: https://github.com/neoprehn/neo-oscal
+docs_dir: docs
+extra_css:
+  - extra.css
+
+theme:
+  name: readthedocs
+  language: en
+  custom_dir: docs/overrides
+
+nav:
+  - Home: index.md
+  - OSCAL Fundamentals: oscal-grundlagen.md
+  - Development: entwicklung.md
+  - Operations & CI/CD: betrieb.md
+  - Roadmap: roadmap.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          name: English
+          default: true
+          build: true
+          site_name: neo-oscal Documentation
+          site_description: Controls automation based on NIST OSCAL

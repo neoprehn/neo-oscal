@@ -8,3 +8,6 @@ Entlang der OSCAL-Schichten:
 4. **SSP** – System Security Plan
 5. **Assessment Plan/Results, POA&M**
 6. Crosswalk zwischen Frameworks, OSCAL-Export (JSON/YAML/XML)
+
+Querschnitt: CI/CD und Betrieb auf oscal.neoprehn.de (Pipeline steht, siehe
+[Betrieb & CI/CD](betrieb.md)).
