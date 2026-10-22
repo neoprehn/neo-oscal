@@ -50,10 +50,14 @@ jobs:
           ssh -i ~/.ssh/id_deploy "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" bash -s <<'EOF'
           set -euo pipefail
           cd /var/www/vhosts/neoprehn.de/oscal.neoprehn.de/app
+          # Repo gehoert dem Plesk-Benutzer, der Deploy laeuft ggf. als anderer Benutzer
+          git config --global --add safe.directory "$PWD"
+          OWNER="$(stat -c %U:%G .)"
           git fetch origin main
           git reset --hard origin/main
           venv/bin/pip install -q -e backend
           venv/bin/python scripts/fetch_content.py
+          chown -R "$OWNER" .
           systemctl restart oscal
           echo "== Deploy abgeschlossen: $(git log -1 --oneline) =="
           EOF
