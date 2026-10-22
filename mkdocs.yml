@@ -1,0 +1,10 @@
+site_name: neo-oscal
+site_description: Controls-Automatisierung auf Basis von NIST OSCAL
+repo_url: https://github.com/neoprehn/neo-oscal
+theme:
+  name: material
+  language: de
+nav:
+  - Übersicht: index.md
+  - Entwicklung: entwicklung.md
+  - Roadmap: roadmap.md

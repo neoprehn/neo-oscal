@@ -10,3 +10,4 @@ dist/
 # heruntergeladene NIST-Inhalte (per scripts/fetch_content.py reproduzierbar)
 data/content/
 *.egg-info/
+site/
