@@ -29,7 +29,7 @@ Voraussetzung: Die Subdomain `oscal.neoprehn.de` ist in Plesk angelegt (mit Let'
    und installiert den systemd-Dienst `oscal` (uvicorn auf `127.0.0.1:8010`).
 2. In Plesk unter *Apache & nginx-Einstellungen → Zusätzliche nginx-Anweisungen* den Inhalt von
    `deploy/plesk-nginx.conf` eintragen: `/api/` geht an den Dienst, alles andere liefert nginx
-   statisch aus `httpdocs/` aus (SPA-Fallback).
+   statisch aus `httpdocs/` aus. Kein eigenes `location /` eintragen – Plesk definiert es selbst.
 3. Deploy-Key: öffentlichen Schlüssel beim SSH-Benutzer hinterlegen, den privaten als Secret
    `VPS_SSH_KEY` in GitHub speichern.
 4. `DEPLOY_ENABLED=true` setzen – ab dann deployt jeder Push auf `main` nach grüner CI.

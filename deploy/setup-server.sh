@@ -53,7 +53,6 @@ Serverseitig fertig. Noch in Plesk (Domains -> oscal.neoprehn.de -> Apache & ngi
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-Proto \$scheme;
     }
-    location / { try_files \$uri /index.html; }
 
 Danach: Deploy-Public-Key in ~$APP_USER/.ssh/authorized_keys eintragen (oder fuer root, wie bei fair-web).
 MSG
