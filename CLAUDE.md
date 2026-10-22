@@ -28,3 +28,12 @@ dokumentieren (SSP, Assessment) und als OSCAL exportieren. Domain: oscal.neopreh
 - `.github/workflows/ci.yml`: pytest/ruff, Frontend-Build, Doku-Build (strict).
 - `.github/workflows/deploy.yml`: SSH/rsync-Deploy auf den VPS, nur aktiv bei Repo-Variable
   `DEPLOY_ENABLED=true` und gesetzten `VPS_*`-Secrets. Server-Setup: `docs/betrieb.md`.
+
+## Roadmap, Chat-Neustart, Knowledgegraph
+- `ROADMAP.md` (aktiv, `[ ]/[~]/[x]`), `ROADMAP-ARCHIV.md` (erledigt), `new_chat_rule.md` (Einstiegstext für neue Chats).
+- Doku-DoD: Ein Punkt ist erst fertig, wenn `docs/` + `docs/*.en.md` aktualisiert, CI grün und gepusht ist.
+- **Code-Exploration zuerst über den Knowledgegraph (codebase-memory-mcp)**: `search_graph`, `trace_path`,
+  `get_code_snippet`, `query_graph`, `get_architecture`, `search_code`. Projekt-Key: **`D-Entwicklung-oscal`**
+  (Repo-Root `D:\Entwicklung\oscal`, nicht der Parent `D:\Entwicklung`). Nach größeren Änderungen
+  `index_repository` erneut ausführen; Architektur-Entscheidungen stehen als ADR im Graph (`manage_adr`).
+- Das Repo ist öffentlich: nie Schlüssel/Zugangsdaten/`.env` committen.
