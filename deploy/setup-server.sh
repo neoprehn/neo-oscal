@@ -40,7 +40,7 @@ sed -e "s#__APP_USER__#$APP_USER#g" -e "s#__APP_GROUP__#$APP_GROUP#g" -e "s#__AP
 systemctl daemon-reload
 systemctl enable --now oscal
 sleep 2
-curl -fsS http://127.0.0.1:8010/api/health && echo
+curl -fsS http://127.0.0.1:8731/api/health && echo
 
 cat <<MSG
 
@@ -48,7 +48,7 @@ Serverseitig fertig. Noch in Plesk (Domains -> oscal.neoprehn.de -> Apache & ngi
 "Zusaetzliche nginx-Anweisungen") eintragen, siehe $APP_DIR/deploy/plesk-nginx.conf :
 
     location /api/ {
-        proxy_pass http://127.0.0.1:8010;
+        proxy_pass http://127.0.0.1:8731;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-Proto \$scheme;

@@ -26,7 +26,7 @@ Voraussetzung: Die Subdomain `oscal.neoprehn.de` ist in Plesk angelegt (mit Let'
 
 1. Auf dem VPS als root: `deploy/setup-server.sh` ausführen. Es klont das Repo nach
    `/var/www/vhosts/neoprehn.de/oscal.neoprehn.de/app`, legt die venv an, lädt die NIST-Inhalte
-   und installiert den systemd-Dienst `oscal` (uvicorn auf `127.0.0.1:8010`).
+   und installiert den systemd-Dienst `oscal` (uvicorn auf `127.0.0.1:8731`).
 2. In Plesk unter *Apache & nginx-Einstellungen → Zusätzliche nginx-Anweisungen* den Inhalt von
    `deploy/plesk-nginx.conf` eintragen: `/api/` geht an den Dienst, alles andere liefert nginx
    statisch aus `httpdocs/` aus. Kein eigenes `location /` eintragen – Plesk definiert es selbst.
