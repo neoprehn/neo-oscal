@@ -19,7 +19,7 @@ jobs:
        github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     env:
-      APP_DIR: /var/www/vhosts/neoprehn.de/oscal
+      SUBDOMAIN_DIR: /var/www/vhosts/neoprehn.de/oscal.neoprehn.de
     steps:
       - uses: actions/checkout@v4
 
@@ -40,15 +40,16 @@ jobs:
 
       - name: Frontend hochladen
         run: |
-          rsync -az --delete -e "ssh -i ~/.ssh/id_deploy" \
+          rsync -az --delete --exclude=.well-known --exclude=cgi-bin \
+            -e "ssh -i ~/.ssh/id_deploy" \
             frontend/dist/ \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${APP_DIR}/frontend-dist/"
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${SUBDOMAIN_DIR}/httpdocs/"
 
       - name: Backend aktualisieren und Dienst neu starten
         run: |
           ssh -i ~/.ssh/id_deploy "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" bash -s <<'EOF'
           set -euo pipefail
-          cd /var/www/vhosts/neoprehn.de/oscal
+          cd /var/www/vhosts/neoprehn.de/oscal.neoprehn.de/app
           git fetch origin main
           git reset --hard origin/main
           venv/bin/pip install -q -e backend

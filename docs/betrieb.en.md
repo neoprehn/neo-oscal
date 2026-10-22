@@ -22,29 +22,22 @@ Deployment is **off** by default. It only becomes active once the GitHub variabl
 
 ## One-time server setup
 
-1. DNS: `A` record `oscal.neoprehn.de` to the VPS, TLS certificate (Let's Encrypt).
-2. Create `/var/www/vhosts/neoprehn.de/oscal` and clone the repo there.
-3. Backend: `python -m venv venv && venv/bin/pip install -e backend` and
-   `venv/bin/python scripts/fetch_content.py`.
-4. systemd service `oscal` (uvicorn on `127.0.0.1:8000`).
-5. Web server: serve static files from `frontend-dist/`, proxy `/api/` to
-   `127.0.0.1:8000`.
+Prerequisite: the subdomain `oscal.neoprehn.de` exists in Plesk (with a Let's Encrypt certificate).
 
-```ini
-# /etc/systemd/system/oscal.service
-[Unit]
-Description=neo-oscal API
-After=network.target
+1. On the VPS as root: run `deploy/setup-server.sh`. It clones the repo to
+   `/var/www/vhosts/neoprehn.de/oscal.neoprehn.de/app`, creates the venv, fetches the NIST content
+   and installs the systemd service `oscal` (uvicorn on `127.0.0.1:8010`).
+2. In Plesk under *Apache & nginx Settings → Additional nginx directives* paste the content of
+   `deploy/plesk-nginx.conf`: `/api/` goes to the service, everything else is served statically
+   from `httpdocs/` by nginx (SPA fallback).
+3. Deploy key: add the public key for the SSH user, store the private one as the GitHub secret
+   `VPS_SSH_KEY`.
+4. Set `DEPLOY_ENABLED=true` – from then on every push to `main` deploys after green CI.
 
-[Service]
-WorkingDirectory=/var/www/vhosts/neoprehn.de/oscal/backend
-ExecStart=/var/www/vhosts/neoprehn.de/oscal/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
-Restart=on-failure
-User=www-data
-
-[Install]
-WantedBy=multi-user.target
-```
+| Path | Content |
+|---|---|
+| `…/oscal.neoprehn.de/app` | repo checkout, `venv/`, `data/content/` |
+| `…/oscal.neoprehn.de/httpdocs` | built frontend (filled by the deploy via rsync) |
 
 ## Documentation (Read the Docs)
 

@@ -1,0 +1,16 @@
+# /etc/systemd/system/oscal.service  (wird von deploy/setup-server.sh installiert)
+[Unit]
+Description=neo-oscal API (uvicorn)
+After=network.target
+
+[Service]
+User=__APP_USER__
+Group=__APP_GROUP__
+WorkingDirectory=__APP_DIR__/backend
+Environment=OSCAL_CONTENT_DIR=__APP_DIR__/data/content
+ExecStart=__APP_DIR__/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8010 --workers 2
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
