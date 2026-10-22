@@ -9,3 +9,4 @@ dist/
 *.sqlite3
 # heruntergeladene NIST-Inhalte (per scripts/fetch_content.py reproduzierbar)
 data/content/
+*.egg-info/
