@@ -35,7 +35,22 @@ eigenes Datenmodell.
 
 ---
 
-## Phase 1 — Katalog-Browser *(aktiv)*
+## Phase 1a — Graph-Datenbank-Fundament *(aktiv, zuerst)*
+
+Entscheidung 2026-10-23: **Neo4j Community (Docker) auf dem VPS** als zentrale Datenbank, **FastAPI bleibt**,
+**Frontend bleibt Vite + React + Tailwind** (kein Astro). Das Original-OSCAL-JSON bleibt je Dokument erhalten
+(verlustfreier Export); der Graph ist der Index über Controls und ihre Beziehungen.
+
+- [ ] Graph-Schema entwerfen (Catalog, Group, Control, Param, Part; Beziehungen `HAS_GROUP`, `HAS_CONTROL`,
+      `ENHANCES`, `RELATED_TO`, später `IMPORTS`, `MAPS_TO`, `IMPLEMENTS`) — als Doku + Constraints/Indizes
+- [ ] Lokale Entwicklung: `docker-compose.yml` mit Neo4j, Zugangsdaten über `.env` (nicht im Repo)
+- [ ] Server: Neo4j-Container auf dem VPS (Ports nur an `127.0.0.1`, Volume, Speicherlimit), Backup-Konzept
+- [ ] Backend: Neo4j-Treiber, Konfiguration, Health-Check; Tests mit Testcontainer bzw. Compose-Dienst in der CI
+- [ ] Import-Pipeline: OSCAL-Katalog (JSON) → Graph (idempotent, versioniert), Original-JSON als Quelle ablegen
+- [ ] API liest aus dem Graph statt aus dem Speicher (löst auch das `--workers 2`-Thema)
+- [ ] Doku (DE/EN): Datenmodell, Betrieb, Backup
+
+## Phase 1 — Katalog-Browser
 
 - [~] OSCAL-Catalog-Modelle und Loader (verlustfrei) — Gerüst vorhanden
 - [ ] Control-Detailansicht: Statement, Guidance, Parameter, Teile (`parts`), Links, Enhancements
@@ -68,7 +83,7 @@ eigenes Datenmodell.
 
 ## Phase 5 — System Security Plan (SSP)
 
-- [ ] Persistenz festlegen (siehe Offene Entscheidungen), Nutzerdaten vom Katalog trennen
+- [ ] Nutzerdaten (SSP) im Graph vom Katalog trennen (eigene Labels/Namespaces), Berechtigungen klären
 - [ ] SSP-Modell: System, Inventar, Control-Implementation je Control
 - [ ] Bearbeitungs-UI (Status, Verantwortliche, Beschreibung)
 
@@ -91,7 +106,7 @@ eigenes Datenmodell.
 
 ## Querschnitt
 
-- [ ] `workers 2` vs. Speicher: Katalog je Worker geladen; bei vielen Katalogen auf gemeinsames Laden/Cache umstellen
+- [ ] `workers 2` vs. Speicher: Katalog je Worker geladen — entfällt mit Phase 1a (Graph als gemeinsame Quelle)
 - [ ] Authentifizierung, sobald Nutzerdaten (SSP/Assessments) serverseitig liegen
 - [ ] Backups der Nutzerdaten
 - [ ] Node-20-Deprecation der GitHub Actions (`checkout@v4`, `setup-node@v4`) beobachten
@@ -100,14 +115,12 @@ eigenes Datenmodell.
 
 ## Offene Entscheidungen
 
-1. **Persistenz der Nutzerdaten:** serverseitig (SQLite + SQLModel, passt zu FastAPI) oder wie myctrl.tools lokal
-   im Browser (IndexedDB)? Empfehlung: SQLite, weil das Tool für eine Person auf eigenem Server läuft und Export
-   als OSCAL ohnehin serverseitig sinnvoll ist.
+1. ~~Persistenz der Nutzerdaten~~ — **entschieden (2026-10-23): Neo4j Community in Docker, serverseitig**, weil die
+   Beziehungen zwischen den Katalogen (Crosswalks, Profile, Umsetzungen) im Mittelpunkt stehen; FastAPI bleibt.
+   Der VPS hat laut Nutzer ausreichend freie Ressourcen (genaue Werte per `free -h` vor der Installation notieren).
 2. **Crosswalk-Quelle:** eigene Pflege, OSCAL-Mapping-Modell oder externes Datenset (z. B. Secure Controls Framework)?
-3. **Frontend-Technik (Vorbild myctrl.tools: Astro + React + Tailwind CSS):** myctrl.tools ist laut
-   [About-Seite](https://myctrl.tools/about/) mit Astro, React und Tailwind gebaut; die Katalogdaten sind
-   statisches JSON, Nutzerdaten liegen im Browser. Wir haben Vite + React + FastAPI. Empfehlung:
-   **Tailwind CSS jetzt übernehmen** (Phase 1), FastAPI-Backend behalten (SSP/Assessments brauchen
-   serverseitige Persistenz und OSCAL-Export). **Astro** nur, wenn die Katalogseiten statisch vorgerendert
-   werden sollen (SEO, Geschwindigkeit) — dann als Frontend-Umbau mit React-Inseln für die interaktiven Teile.
-4. **Frontend-Zustandsverwaltung/Router:** React Router + TanStack Query als Standard (bei Astro entfällt der Router für Katalogseiten).
+3. ~~Frontend-Technik~~ — **entschieden (2026-10-23): Vite + React + Tailwind CSS, kein Astro.** myctrl.tools ist laut
+   [About-Seite](https://myctrl.tools/about/) mit Astro, React und Tailwind gebaut (statisches JSON, Nutzerdaten im
+   Browser). Vorgerenderte Seiten (Astro) lohnen sich nur für öffentlich auffindbare Katalogseiten; für ein
+   persönliches Werkzeug nicht. Neu bewerten, falls die Seite öffentlich werden soll.
+4. **Frontend-Zustandsverwaltung/Router:** React Router + TanStack Query als Standard.

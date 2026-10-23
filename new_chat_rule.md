@@ -25,4 +25,4 @@ Arbeitsweise:
     - Commit-Sprache Deutsch; am Ende einer Arbeitssitzung routinemäßig committen und pushen.
     - Server-Eingriffe (VPS) macht der Nutzer selbst bzw. nur nach ausdrücklicher Freigabe.
 
-Was steht als nächstes an? (Derzeit: Phase 1 — Katalog-Browser, siehe ROADMAP.md.)
+Was steht als nächstes an? (Derzeit: Phase 1a — Graph-Datenbank-Fundament mit Neo4j, danach Phase 1 Katalog-Browser, siehe ROADMAP.md.)
