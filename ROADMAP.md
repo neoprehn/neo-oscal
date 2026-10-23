@@ -104,6 +104,17 @@ Entscheidung 2026-10-23: **Neo4j Community (Docker) auf dem VPS** als zentrale D
 - [ ] `llms.txt`/Markdown-Exporte
 - [ ] Mehrsprachige Controls (DE) — Quellenlage prüfen
 
+## Architekturregeln Frontend (halten Astro als spätere Option offen)
+
+- [ ] **Komponenten ohne Router-Kopplung:** Darstellung (Control-Karte, Tabellen, Suche) in eigenen React-Komponenten,
+      Daten nur als Props; nur dünne „Seiten“-Dateien kennen Routing und Datenabruf.
+- [ ] **Daten nur über einen API-Client** (ein Modul, keine verstreuten `fetch`-Aufrufe), damit ein Astro-Build
+      dieselbe API nutzen kann.
+- [ ] **Sprechende, stabile URLs** von Anfang an, z. B. `/frameworks/800-53/ac-2` statt `/?id=ac-2`.
+- Astro (Vorab-Renderung nur für öffentliche Katalogseiten, SPA bleibt für SSP/Assessments) wird neu bewertet,
+  falls die Seite öffentlich auffindbar sein soll. Beim Umstieg bleiben Backend, Neo4j und API unverändert; die CI
+  bräuchte dann eine erreichbare Datenquelle für den Build.
+
 ## Querschnitt
 
 - [ ] `workers 2` vs. Speicher: Katalog je Worker geladen — entfällt mit Phase 1a (Graph als gemeinsame Quelle)

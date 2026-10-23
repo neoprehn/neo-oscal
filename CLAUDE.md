@@ -37,3 +37,9 @@ dokumentieren (SSP, Assessment) und als OSCAL exportieren. Domain: oscal.neopreh
   (Repo-Root `D:\Entwicklung\oscal`, nicht der Parent `D:\Entwicklung`). Nach größeren Änderungen
   `index_repository` erneut ausführen; Architektur-Entscheidungen stehen als ADR im Graph (`manage_adr`).
 - Das Repo ist öffentlich: nie Schlüssel/Zugangsdaten/`.env` committen.
+
+## Frontend-Architekturregeln (Astro bleibt als spätere Option offen)
+- React-Komponenten für Darstellung kennen keinen Router und holen keine Daten selbst — Daten kommen als Props.
+- Nur dünne Seiten-Dateien kennen Routing und Datenabruf. Alle API-Zugriffe laufen über **einen** API-Client (ein Modul).
+- URLs sind sprechend und stabil (`/frameworks/800-53/ac-2`), kein Zustand nur im Speicher.
+- Stack-Entscheidungen (Neo4j, FastAPI, Vite + React + Tailwind) stehen in `ROADMAP.md` unter „Offene Entscheidungen“.
