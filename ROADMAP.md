@@ -44,7 +44,10 @@ Entscheidung 2026-10-23: **Neo4j Community (Docker) auf dem VPS** als zentrale D
 - [ ] Graph-Schema entwerfen (Catalog, Group, Control, Param, Part; Beziehungen `HAS_GROUP`, `HAS_CONTROL`,
       `ENHANCES`, `RELATED_TO`, später `IMPORTS`, `MAPS_TO`, `IMPLEMENTS`) — als Doku + Constraints/Indizes
 - [ ] Lokale Entwicklung: `docker-compose.yml` mit Neo4j, Zugangsdaten über `.env` (nicht im Repo)
-- [ ] Server: Neo4j-Container auf dem VPS (Ports nur an `127.0.0.1`, Volume, Speicherlimit), Backup-Konzept
+- [ ] Server: Neo4j-Container auf dem VPS (Ports nur an `127.0.0.1`, Volume, Speicherlimit), Backup-Konzept.
+      VPS-Stand 2026-10-23: 7,7 GiB RAM gesamt, ~2,3 GiB belegt, ~5,4 GiB verfügbar, **kein Swap**.
+      Vorgabe: Container-Limit 2 GiB, Heap 512 MiB–1 GiB, Page-Cache 512 MiB (kein Swap → bei zu hohen Werten droht OOM-Kill
+      auch für FAIR/IAM). `docker ps` auf dem Server prüfen, ob Docker schon läuft.
 - [ ] Backend: Neo4j-Treiber, Konfiguration, Health-Check; Tests mit Testcontainer bzw. Compose-Dienst in der CI
 - [ ] Import-Pipeline: OSCAL-Katalog (JSON) → Graph (idempotent, versioniert), Original-JSON als Quelle ablegen
 - [ ] API liest aus dem Graph statt aus dem Speicher (löst auch das `--workers 2`-Thema)
