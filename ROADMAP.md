@@ -28,6 +28,7 @@ Katalogsuche, CI/CD nach oscal.neoprehn.de, zweisprachige Doku. Aktuell geladen:
 | Assessments, Whiteboards (lokal im Browser) | SSP/Assessment (Phasen 5–6) |
 | Öffentliche REST-API `/api/v1/*` (nur lesend) | Phase 1 (versionierte API) |
 | llms.txt / KI-Fragen je Control | Phase 8 (optional) |
+| Astro + React + Tailwind CSS (statisches JSON) | Vite + React + FastAPI; Tailwind übernehmen, Astro offen (Entscheidung 3) |
 
 Abweichung: neo-oscal arbeitet **OSCAL-nativ** (verlustfreier Import/Export), myctrl.tools nutzt ein
 eigenes Datenmodell.
@@ -42,7 +43,7 @@ eigenes Datenmodell.
 - [ ] Volltextsuche über ID, Titel, Prosa
 - [ ] Weitere Kataloge laden: NIST SP 800-171 Rev3, CSF 2.0 (aus `usnistgov/oscal-content`)
 - [ ] Versionierte API `/api/v1/*` (frameworks, controls, search) mit Paginierung
-- [ ] Frontend: Routing, Layout, Suchergebnisse verlinkt, Responsive
+- [ ] Frontend: Tailwind CSS einführen (wie myctrl.tools), Routing, Layout, Suchergebnisse verlinkt, Responsive
 - [ ] Tests für API-Verträge, Doku (DE/EN)
 
 ## Phase 2 — Profile & Baselines
@@ -103,5 +104,10 @@ eigenes Datenmodell.
    im Browser (IndexedDB)? Empfehlung: SQLite, weil das Tool für eine Person auf eigenem Server läuft und Export
    als OSCAL ohnehin serverseitig sinnvoll ist.
 2. **Crosswalk-Quelle:** eigene Pflege, OSCAL-Mapping-Modell oder externes Datenset (z. B. Secure Controls Framework)?
-3. **Referenzprojekte von myctrl.tools:** welche Repos sind gemeint und was wird davon genutzt? (zu klären)
-4. **Frontend-Zustandsverwaltung/Router:** React Router + TanStack Query als Standard?
+3. **Frontend-Technik (Vorbild myctrl.tools: Astro + React + Tailwind CSS):** myctrl.tools ist laut
+   [About-Seite](https://myctrl.tools/about/) mit Astro, React und Tailwind gebaut; die Katalogdaten sind
+   statisches JSON, Nutzerdaten liegen im Browser. Wir haben Vite + React + FastAPI. Empfehlung:
+   **Tailwind CSS jetzt übernehmen** (Phase 1), FastAPI-Backend behalten (SSP/Assessments brauchen
+   serverseitige Persistenz und OSCAL-Export). **Astro** nur, wenn die Katalogseiten statisch vorgerendert
+   werden sollen (SEO, Geschwindigkeit) — dann als Frontend-Umbau mit React-Inseln für die interaktiven Teile.
+4. **Frontend-Zustandsverwaltung/Router:** React Router + TanStack Query als Standard (bei Astro entfällt der Router für Katalogseiten).
